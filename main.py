@@ -25,5 +25,7 @@ def main():
         else:
             print("Invalid choice. Please enter a valid option.")
 
+            
+# Check if the script is executed directly
 if __name__ == "__main__":
     main()

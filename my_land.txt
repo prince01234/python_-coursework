@@ -5,7 +5,7 @@
 105, Biratnagar, East, 6, 55000, Available
 106, Dharan, East, 7, 65000, Available
 107, Butwal, West, 5, 60000, Available
-108, Hetauda, Central, 9, 85000, Available
+108, Hetauda, Central, 9, 85000, Not Available
 109, Birgunj, South, 4, 50000, Available
 110, Dhangadhi, Far-West, 3, 45000, Available
 111, Janakpur, Central, 6, 55000, Available
