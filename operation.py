@@ -6,7 +6,8 @@ from datetime import datetime
 # this Function allows user to rent available land by fulfilling requirements
 def rent_available_land():
     """Allows the user to rent available land by filling some requirements."""
-    # Read land data from somewhere
+
+    #read land data
     land_data = read_land_data()
     
     # Get kitta number input from the user
@@ -204,7 +205,7 @@ def generate_invoice(invoice_details):
     with open(invoice_file, mode) as invoice:
         # Write header and customer information
         invoice.write("**************************************************\n")
-        invoice.write("               Rental System Invoice\n")
+        invoice.write("             Techno Property Nepal\n")
         invoice.write("==================================================\n")
         invoice.write(f"Customer Name: {invoice_details['customer_name']}\t\t\tDate: {current_date}\n")
         invoice.write(f"Phone Number: {invoice_details['phone_number']}\n")
@@ -217,7 +218,7 @@ def generate_invoice(invoice_details):
             rent_amount = invoice_details['rent_amount']
             invoice.write(f"Total Amount: Rs {rent_amount}\n") 
             invoice.write("==================================================\n")
-            invoice.write("         Thanks for renting with us!\n")
+            invoice.write("          Thanks for renting with us!\n")
             invoice.write("**************************************************\n\n\n")
             return
 
@@ -228,7 +229,6 @@ def generate_invoice(invoice_details):
         discount = invoice_details['discount']
         original_rent = invoice_details['original_rent']
         new_rent = invoice_details['new_rent']
-        total_amount =  (new_rent + fine ) - discount
 
         invoice.write(f"Original Rented Duration: {duration_rented} months\n")
         invoice.write(f"Duration Returned: {duration_returned} months\n")
@@ -241,14 +241,14 @@ def generate_invoice(invoice_details):
         elif discount > 0:
             invoice.write(f"Discount: Rs {discount}\n")
         else:
-            invoice.write(f"Total Amount: Rs {total_amount}\n")
+            invoice.write(f"Total Amount: Rs {original_rent}\n")
         
         # Write new total amount after adjustments
         invoice.write("==================================================\n")
         new_total_amount = original_rent + fine - discount
         invoice.write(f"New Total Amount: Rs {new_total_amount}\n")
         invoice.write("==================================================\n")
-        invoice.write("         Thanks for renting with us!\n")
+        invoice.write("          Thanks for renting with us!\n")
         invoice.write("**************************************************\n\n\n")
 
     # Print confirmation message
