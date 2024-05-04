@@ -1,0 +1,234 @@
+#main
+
+IMPORT operation
+IMPORT read
+
+DEFINE show_menu()
+    PRINT "Welcome to the Land Rental System"
+    PRINT "1. Display Available Lands"
+    PRINT "2. Rent Land"
+    PRINT "3. Return Land"
+    PRINT "4. Exit"
+
+DEFINE main()
+    WHILE True
+        CALL show_menu()
+        TAKE user input and store it in 'choose' variable
+
+        IF 'choose' is '1' THEN
+            CALL display_available_lands() function from read module
+        ELSE IF 'choose' is '2' THEN
+            CALL rent_available_land() function from operation module
+        ELSE IF 'choose' is '3' THEN
+            CALL return_rented_land() function from operation module
+        ELSE IF 'choose' is '4' THEN
+            PRINT "Thank you for using the Land Rental System. Exiting..."
+            BREAK the loop
+        ELSE
+            PRINT "Invalid choice. Please enter a valid option."
+
+IF the script is executed directly THEN
+    CALL main() function
+
+
+#write
+IMPORT read_land_data FUNCTION from read MODULE
+
+DEFINE write_my_land FUNCTION which takes lands as an argument
+    OPEN 'my_land.txt' file in write mode and store it in file variable
+    FOR EACH land IN lands
+        CREATE line STRING containing land information
+        WRITE line to file
+    CLOSE file
+
+DEFINE update_land_availability FUNCTION which takes kitta_number as an argument
+    READ land data using read_land_data FUNCTION and store it in lands variable
+    FOR EACH land IN lands
+        IF land's kitta number matches provided kitta_number THEN
+            TOGGLE availability status of the land
+            BREAK out of loop
+    WRITE updated land data to 'my_land.txt' file using write_my_land FUNCTION
+
+
+#read
+DEFINE read_land_data FUNCTION
+    CREATE empty list land_data to store land data
+    OPEN 'my_land.txt' file in read mode and store it in file variable
+    FOR EACH line IN file
+        STRIP leading/trailing whitespace from line and SPLIT it by comma and space
+        CREATE land_entry dictionary with kitta_number, city, direction, area, price, and availability keys and corresponding values
+        APPEND land_entry to land_data list
+    CLOSE file
+    RETURN land_data
+
+DEFINE display_available_lands FUNCTION
+    PRINT table header with column names
+    READ land data from file using read_land_data FUNCTION and store it in lands variable
+    FOR EACH land IN lands
+        IF land availability is "Available" THEN
+            PRINT land details in tabular format
+
+#operation
+IMPORT read_land_data FUNCTION from read MODULE
+IMPORT update_land_availability FUNCTION from write MODULE
+IMPORT datetime MODULE
+
+DEFINE rent_available_land FUNCTION
+    CALL read_land_data FUNCTION and STORE the result in land_data
+    
+    PRINT "Enter the kitta number of the land you want to rent: "
+    READ kitta_number from user input
+
+    TRY
+        CONVERT kitta_number to an integer
+    EXCEPT ValueError
+        PRINT "Please enter a valid kitta number."
+        RETURN None
+    
+    SET land_found to False
+    
+    FOR EACH land IN land_data
+        IF land's kitta_number EQUALS kitta_number THEN
+            SET land_found to True
+            IF land's availability EQUALS "Available" THEN
+                PRINT "Enter your name: "
+                READ customer_name from user input
+                
+                WHILE True
+                    PRINT "Enter your phone number: "
+                    READ phone_number from user input
+                    IF phone_number_checker(phone_number) THEN
+                        BREAK
+                    ELSE
+                        PRINT "Please enter a valid phone number."
+                
+                PRINT "Enter the duration you want to rent (in months): "
+                READ duration_months from user input
+                
+                TRY
+                    CONVERT duration_months to an integer
+                    IF duration_months <= 1 THEN
+                        RAISE ValueError
+                EXCEPT ValueError
+                    PRINT "Please enter a valid duration (more than 1 month)."
+                    RETURN None
+                
+                SET rent_amount to land's price multiplied by duration_months
+                SET fine to 0
+                SET discount to 0
+                
+                CALL update_land_availability FUNCTION with kitta_number as argument
+                PRINT "Land rented successfully!"
+                
+                SET rent_details to a dictionary containing rent details
+                CALL generate_invoice FUNCTION with rent_details as argument
+                RETURN rent_details
+            ELSE
+                PRINT "This land is not available for rent."
+                RETURN None
+    END FOR EACH
+    
+    IF land_found is False THEN
+        PRINT "No land found with this kitta number. Please enter a valid kitta number."
+    RETURN None
+
+DEFINE return_rented_land FUNCTION
+    CALL read_land_data FUNCTION and STORE the result in land_data
+    
+    PRINT "Enter the kitta number of the land you want to return: "
+    READ kitta_number from user input
+
+    TRY
+        CONVERT kitta_number to an integer
+    EXCEPT ValueError
+        PRINT "Please enter a valid kitta number."
+        RETURN None
+    
+    SET land_found to False
+    
+    FOR EACH land IN land_data
+        IF land's kitta_number EQUALS kitta_number THEN
+            SET land_found to True
+            IF land's availability EQUALS "Not Available" THEN
+                PRINT "Enter the duration you are returning (in months): "
+                READ duration_returned from user input
+                
+                PRINT "Enter the original rented duration (in months): "
+                READ duration_rented from user input
+                
+                TRY
+                    CONVERT duration_returned and duration_rented to integers
+                    IF duration_returned < 1 or duration_rented < 1 THEN
+                        RAISE ValueError
+                EXCEPT ValueError
+                    PRINT "Please enter valid durations (more than 1 month)."
+                    RETURN None
+                
+                PRINT "Enter your name: "
+                READ customer_name from user input
+                
+                WHILE True
+                    PRINT "Enter your phone number: "
+                    READ phone_number from user input
+                    IF phone_number_checker(phone_number) THEN
+                        BREAK
+                    ELSE
+                        PRINT "Please enter a valid phone number."
+                
+                SET rent_price to land's price
+                SET original_rent to duration_rented multiplied by rent_price
+                SET new_rent to duration_returned multiplied by rent_price
+                
+                IF duration_returned > duration_rented THEN
+                    SET fine to 10000 multiplied by (duration_returned minus duration_rented)
+                    SET discount to 0
+                ELSE IF duration_returned < duration_rented THEN
+                    SET discount to original_rent minus new_rent
+                    SET fine to 0
+                ELSE
+                    SET fine to 0
+                    SET discount to 0
+                
+                CALL update_land_availability FUNCTION with kitta_number as argument
+                PRINT "Land returned successfully!"
+                
+                SET return_details to a dictionary containing return details
+                CALL generate_invoice FUNCTION with return_details as argument
+                RETURN return_details
+            ELSE
+                PRINT "This land is not currently rented."
+                RETURN None
+    END FOR EACH
+    
+    IF land_found is False THEN
+        PRINT "No land found with this kitta number. Please enter a valid kitta number."
+    RETURN None
+
+DEFINE phone_number_checker FUNCTION which takes phone_number as argument
+    IF length of phone_number EQUALS 10 AND phone_number CONSISTS OF DIGITS THEN
+        RETURN True
+    ELSE
+        RETURN False
+
+DEFINE generate_invoice FUNCTION which takes invoice_details as argument
+    SET current_date to current date in YYYY-MM-DD format
+    SET invoice_file to customer_name concatenated with "_Invoice.txt"
+    
+    TRY
+        OPEN invoice_file in read mode
+        CLOSE invoice_file
+        SET mode to 'a' (append mode)
+    EXCEPT FileNotFoundError
+        SET mode to 'w' (write mode)
+    
+    OPEN invoice_file with mode as mode
+    WRITE header and customer information to invoice_file
+    
+    IF 'duration' in invoice_details THEN
+        WRITE rental details to invoice_file
+        WRITE total amount to invoice_file
+    ELSE
+        WRITE return details to invoice_file
+        WRITE total amount to invoice_file
+    
+    PRINT "Invoice generated successfully: ", invoice_file
