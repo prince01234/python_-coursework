@@ -113,7 +113,7 @@ def return_rented_land():
                 try:
                     duration_returned = int(duration_returned)
                     duration_rented = int(duration_rented)
-                    if duration_returned < 1 and duration_rented < 1:
+                    if duration_returned < 1 or duration_rented < 1:
                         raise ValueError
                 except ValueError:
                     print("Duration should be more than 1 month.")
@@ -220,6 +220,8 @@ def generate_invoice(invoice_details):
             invoice.write("==================================================\n")
             invoice.write("          Thanks for renting with us!\n")
             invoice.write("**************************************************\n\n\n")
+
+            print(f"Invoice generated successfully: {invoice_file}")
             return
 
         # Write return details
