@@ -1,0 +1,30 @@
+**************************************************
+             Techno Property Nepal
+==================================================
+Customer Name: Euphoric			Date: 2024-05-05
+Phone Number: 9810297109
+Land (Kitta Number): 101
+Duration: 6 months
+Total Amount: Rs 300000
+==================================================
+          Thanks for renting with us!
+**************************************************
+
+
+**************************************************
+             Techno Property Nepal
+==================================================
+Customer Name: Euphoric			Date: 2024-05-05
+Phone Number: 9810297109
+Land (Kitta Number): 101
+Original Rented Duration: 5 months
+Duration Returned: 5 months
+Original Rent Amount: Rs 250000
+Total Amount: Rs 250000
+==================================================
+New Total Amount: Rs 250000
+==================================================
+          Thanks for renting with us!
+**************************************************
+
+

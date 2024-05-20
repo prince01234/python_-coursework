@@ -1,0 +1,33 @@
+Step 1 : Start
+Step 2 : Create a main function to display welcome message and options menu. Enter a loop to continuously prompt the user for input until they choose to exit. Display options menu and Prompt the user to enter their choice :
+                 Perform actions based on the user's choice:
+                - If choice is '1', goto step 4 (display available lands)
+                - If choice is '2', goto step 6 (rent available land)
+                - If choice is '3', goto step 7 (return rented land)
+                - If choice is '4', exit the loop and end the program
+                - If choice is invalid, display an error message
+         End loop when the user chooses to exit
+Step 3 : Create a function to read land data and Initialize an empty list to store land data. Open the file 'my_land.txt' in read mode. Then read each line from the file and split the line by comma and space. Create a dictionary for each land entry with appropriate keys and values. Append the land entry dictionary to the land data list. Return the list of a land data
+Step 4 : Create a function called display_available_lands() to display a formatted table header and  Read land data from the file using read_land_data(). Iterate over each land entry and If the land is available, print its details in the formatted table in terminal.
+Step 5: Create a function called update_land_availability(kitta_number). Read those land data from the file using read_land_data(). Iterate over each land entry and if the kitta number matches the provided kitta number, update the availability status of the land. Also update land data with the new availability status. Write the updated land data back to the file. Exit loop.
+Step 6: Create a function named rent_available_land(). Read land data from the file using read_land_data(). Prompt the user to enter the kitta number of the land they want to rent. Validate the input kitta number and Iterate over each land entry. If the kitta number matches and the land is available:
+                - Prompt the user for their name, phone number, and duration of rent
+                - Calculate rent amount based on duration
+                - Update land availability to "Not Available"
+                - Generate invoice for rental transaction
+                - Return rent details
+        End rent
+Step 7 : Create a function called return_rented_land() and read land data from the file using read_land_data(). Prompt the user to enter the kitta number of the land they want to return. Validate the input kitta number and iterate over each land entry: If the kitta number matches and the land is rented:
+                - Prompt the user for returned duration, original rented duration, name, and phone number
+                - Calculate fines or discounts based on returned duration
+                - Update land availability to "Available"
+                - Generate invoice for return transaction
+                - Return return details
+        End return
+Step 8 : Create a function phone_number_checker(phone_number). Check if the length of the phone number is 10 and if it consists only of digits. Return True if the format is correct, otherwise return False
+Step 9 : Create a function called generate_invoice(invoice_details) and get the current date. Generate a filename for the invoice based on the customer's name Open the invoice file and write invoice details:
+            i. Customer information, land details, and transaction details
+            ii. Calculate total amount and write it in the invoice
+        After that print a confirmation message. End invoice generation
+
+Step 11 : Stop
